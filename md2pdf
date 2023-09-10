@@ -1,0 +1,24 @@
+#!/bin/sh
+
+SRC="$*"
+if [ -z "${SRC}" ]; then
+  echo "Usage: $(basename ${0}) filename(s)"
+  exit 127
+fi
+for s in ${SRC}; do
+  if test -f "${s}"; then :; else
+    echo "Error: file not found: ${s}"
+    exit 127
+  fi
+done
+for s in ${SRC}; do
+  d=$(dirname ${s})
+  b=$(basename ${s} .md)
+  if test "${d}" == "."; then
+    p="${b}.pdf"
+  else
+    p="${d}/${b}.pdf"
+  fi
+  echo "[${s} -> ${p}]"
+  pandoc ${s} --output=${p} --from=gfm --pdf-engine=lualatex -V documentclass=ltjsarticle -V luatexjapresetoptions=hiragino-pron
+done
