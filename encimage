@@ -1,0 +1,19 @@
+#!/bin/bash
+
+HDIUTIL=/usr/bin/hdiutil
+if [ -x ${HDIUTILUTIL} ]; then :; else
+  echo "Error: ${HDIUTIL} not found"
+  exit 127
+fi
+
+SRC="${1}"
+if [ -d "${SRC}" ]; then
+  SRC=$(cd "${SRC}" && pwd)
+else
+  echo "Usage $(basename ${0}) source [destination]"
+  exit 127
+fi
+DEST="${2:-${SRC}.dmg}"
+
+echo "Executing: ${HDIURIL} create -encryption -format UDRO -srcfolder \"${SRC}\" \"${DEST}\""
+${HDIUTIL} create -encryption -format UDRO -srcfolder "${SRC}" "${DEST}"
