@@ -1,0 +1,45 @@
+#!/bin/sh
+
+SRC="$*"
+if [ -z "${SRC}" ]; then
+  echo "Usage: $(basename ${0}) filename(s)"
+  exit 127
+fi
+for s in ${SRC}; do
+  if test -f "${s}"; then :; else
+    echo "Error: file not found: ${s}"
+    exit 127
+  fi
+done
+
+BASE="latexeq2pdf.$$"
+TEX="${BASE}.tex"
+for s in ${SRC}; do
+  d=$(dirname ${s})
+  b=$(basename ${s} .eq)
+  if test "${d}" == "."; then
+    p="${b}.pdf"
+  else
+    p="${d}/${b}.pdf"
+  fi
+  if [ -f ${p} ]; then
+    echo "Skip: ${p} exists"
+  else
+    echo "Convert: ${s} -> ${p}"
+    cat << EOF > ${TEX}
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\pagestyle{empty}
+\begin{document}
+\begin{align*}
+EOF
+    cat ${s} >> ${TEX}
+    cat << EOF >> ${TEX}
+\end{align*}
+\end{document}
+EOF
+    pdflatex ${TEX} > /dev/null 2>&1
+    pdfcrop "${BASE}.pdf" "${b}.pdf" > /dev/null 2>&1
+    rm -f "${BASE}.tex" "${BASE}.aux" "${BASE}.log" "${BASE}.pdf"
+  fi
+done
