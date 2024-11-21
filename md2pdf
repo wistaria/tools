@@ -20,5 +20,5 @@ for s in ${SRC}; do
     p="${d}/${b}.pdf"
   fi
   echo "[${s} -> ${p}]"
-  pandoc ${s} --output=${p} --from=gfm --pdf-engine=lualatex -V documentclass=ltjsarticle -V luatexjapresetoptions=hiragino-pron
+  pandoc ${s} --output=${p} --from=gfm --pdf-engine=lualatex -V documentclass=ltjsarticle -V luatexjapresetoptions=hiragino-pron -V geometry:margin=15mm -V geometry:top=10mm
 done
