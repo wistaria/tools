@@ -1,0 +1,15 @@
+#!/bin/sh
+
+OPTIONS=$@
+
+SOURCE_DIR=$(pwd)
+NAME=$(basename ${SOURCE_DIR})
+DIR="${HOME}/build/${NAME}"
+
+if [ -d ${DIR} ]; then :; else
+  mkdir ${DIR}
+fi
+echo "Executing: cd ${DIR}; cmake ${SOURCE_DIR} ${OPTIONS}"
+
+cd ${DIR}
+cmake ${SOURCE_DIR} ${OPTIONS}

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+OPTIONS=$@
+
+SOURCE_DIR=$(pwd)
+NAME=$(basename ${SOURCE_DIR})
+DIR="${HOME}/build/${NAME}"
+
+if [ -d ${DIR} ]; then :; else
+  echo "Error: ${DIR} not found"
+  exit 127
+fi
+echo "Executing: cd ${DIR}; make ${OPTIONS}"
+
+cd ${DIR}
+make ${OPTIONS}
