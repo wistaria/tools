@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import unicodedata
+
+dir_path = sys.argv[1]
+
+files = os.listdir(dir_path)
+
+for file in files:
+    nfc_file_name = unicodedata.normalize("NFC", file).encode("utf-8")
+    if file != nfc_file_name:
+        print(f"rename {file} to {nfc_file_name}")
+        os.rename(os.path.join(dir_path, file),
+                  os.path.join(dir_path.encode(encoding='utf-8'), nfc_file_name))

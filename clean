@@ -1,9 +1,17 @@
 #!/bin/sh
 
-find . -type f -name '*.ti' -or -name '*.ii' -or -name '*~' -or -name '.*~' -or -name .DS_Store -or -name '.#*[0-9]*.[0-9]*' -or -name '#*#' -or -name '._?*'
-find . -type f -name '*.ti' -or -name '*.ii' -or -name '*~' -or -name '.*~' -or -name .DS_Store -or -name '.#*[0-9]*.[0-9]*' -or -name '#*#' -or -name '._?*' | xargs rm -f
+find . -type f \( -name '*.ti' -o -name '*.ii' -o -name '*~' -o -name '.*~' -o -name .DS_Store -o -name '.#*[0-9]*.[0-9]*' -o -name '#*#' -o -name '._?*' \)
+find . -type f \( -name '*.ti' -o -name '*.ii' -o -name '*~' -o -name '.*~' -o -name .DS_Store -o -name '.#*[0-9]*.[0-9]*' -o -name '#*#' -o -name '._?*' \) -exec rm -f {} +
 find . -type d -name 'ti_files'
-find . -type d -name 'ti_files' | xargs rm -rf
+find . -type d -name 'ti_files' -exec rm -rf {} +
 find . -type f -name '~\$*.docx'
-find . -type f -name '~\$*.docx' | xargs rm -f
-rm -f core a.out *.aux *.bib.bak *.blg *.dvi *.fdb_latexmk *.fls *.synctex.gz
+find . -type f -name '~\$*.docx' -exec rm -f {} +
+rm -f core a.out ./*.aux ./*.bib.bak ./*.blg ./*.dvi ./*.fdb_latexmk ./*.fls ./*.synctex.gz
+find "$HOME"/Desktop -type f -name '~\$*.docx'
+find "$HOME"/Desktop -type f -name '~\$*.docx' -exec rm -f {} +
+find "$HOME"/Downloads -type f -name '~\$*.docx'
+find "$HOME"/Downloads -type f -name '~\$*.docx' -exec rm -f {} +
+find "$HOME"/Desktop -type f -name '~\$*.xlsx'
+find "$HOME"/Desktop -type f -name '~\$*.xlsx' -exec rm -f {} +
+find "$HOME"/Downloads -type f -name '~\$*.xlsx'
+find "$HOME"/Downloads -type f -name '~\$*.xlsx' -exec rm -f {} +

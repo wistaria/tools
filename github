@@ -1,12 +1,19 @@
 #!/bin/sh
 
-NAME=${1:-origin}
-if [ "${1}" = "-h" -o "${1}" = "--help" ]; then
-  echo "Usage: $(basename ${0}) [remotename]"
-  exit 0
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    printf "Usage: %s [code/issues/pulls/actions/wiki] [remotename]\n" "$(basename "$0")"
+    exit 0
 fi
-URL="https://$(git remote get-url ${NAME} | sed 's%^git@%%' | sed 's%:%/%' | sed 's%.git$%%')"
-if [ ${URL} != "https://" ]; then
-  echo "$(basename ${0}): Opening ${URL} ..."
-  open ${URL}
+
+TYPE=${1:-code}
+NAME=${2:-origin}
+
+URL="https://$(git remote get-url "$NAME" | sed 's%^git@%%' | sed 's%:%/%' | sed 's%.git$%%')"
+if [ "$TYPE" != "code" ]; then
+    URL="$URL/$TYPE"
+fi
+
+if [ "$URL" != "https://" ]; then
+  printf "%s: Opening %s...\n" "$0" "$URL"
+  open "$URL"
 fi

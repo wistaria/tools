@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import unicodedata
+
+dir_path = sys.argv[1]
+
+files = os.listdir(dir_path)
+
+for file in files:
+    nfc_file_name = unicodedata.normalize("NFC", file).encode("utf-8")
+    nfd_file_name = unicodedata.normalize("NFD", file).encode("utf-8")
+    if nfc_file_name != nfd_file_name:
+        print(f"{'NFC' if file==nfc_file_name else 'NFD'}: {file}")
+    # s.rename(os.path.join(dir_path, file),
+    #           os.path.join(dir_path.encode(encoding='utf-8'), nfc_file_name))
